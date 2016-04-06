@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>backbone-model</title>
+</head>
+<body>
+</body>
+<script src="http://the5fireblog.b0.upaiyun.com/staticfile/jquery-1.10.2.js"></script>
+<script src="http://the5fireblog.b0.upaiyun.com/staticfile/underscore.js"></script>
+<script src="http://the5fireblog.b0.upaiyun.com/staticfile/backbone.js"></script>
+<script>
+(function ($) {
+    var Man=Backbone.Model.extend({
+      initialize:function(){
+        alert('Hey,you create mw!');
+      }
+    });
+    var man=new Man;
+})(jQuery);
+</script>
+</html>
