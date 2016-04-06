@@ -10,12 +10,38 @@
 <script src="http://the5fireblog.b0.upaiyun.com/staticfile/backbone.js"></script>
 <script>
 (function ($) {
+    //简单对象
     var Man=Backbone.Model.extend({
       initialize:function(){
-        alert('Hey,you create mw!');
+        alert('Hey,you create me!');
+        //初始化时绑定监听
+        this.bind("change:name",function(){
+            var name=this.get("name");
+            alert("你改变了name属性为："+name);
+        });
+      },
+      //直接定义，设置默认值
+      defaults:{
+          name="Blank",
+          age:'20'
+      },
+      //对象中的方法
+      aboutMe:function(){
+          return '我叫'+this.get('name')+',今年'+this.get('age')+'岁';
       }
     });
     var man=new Man;
+    alert(man.get('name'));
+    //赋值时定义
+    man.set({name:"web240",age:'22'});
+    alert(man.get('name'));
+    
+    alert(man.aboutMe());
+    
+    //触发绑定的change事件 alert
+    man.set({name:'new name'});
+    man.set({name:'web157'});
+    
 })(jQuery);
 </script>
 </html>
