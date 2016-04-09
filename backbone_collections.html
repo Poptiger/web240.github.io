@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>backbone-collections</title>
+</head>
+<body>
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="http://cdn.bootcss.com/backbone.js/1.2.3/backbone-min.js"></script>
+    <script>
+        (function ($) {
+            var Book = Backbone.Model.extend({
+                defaults: {
+                    title:'defalut'
+                },
+                initialize: function () {
+                    //alert('Hey,you create me!');
+                }
+            });
+
+            var BookShelf = Backbone.Collection.extend({
+                model:Book
+            });
+
+            var book1 = new Book({ title: 'book1' });
+            var book2 = new Book({ title: 'book2' });
+            var book3 = new Book({ title: 'book3' });
+
+            //注意这里是数组，或者使用add
+            //var bookShelf = new BookShelf([book1,book2,book3]);
+
+            var bookShelf = new BookShelf;
+            bookShelf.add(book1);
+            bookShelf.add(book2);
+            bookShelf.add(book3);
+            bookShelf.remove(book3);
+
+            //基于underscore这个js库，还可以使用each的方法获取collection中的数据
+            bookShelf.each(function (book) {
+                alert(book.get('title'));
+            });
+
+            //reset方法
+            var showAllBooks = function () {
+                bookShelf.each(function (book) {
+                    //将book数据渲染到页面的操作
+                    document.writeln(book.get('title'));
+                });
+            }
+            bookShelf.bind('reset',showAllBooks);
+
+            //使用fetch从服务器端获取数据
+            bookShelf.url = '/sources/books.js';
+            bookShelf.fetch({
+                //需要主动传递reset,才会触发reset
+                reset:true,
+                success: function (collection, response, options) {
+                    collection.each(function (book) {
+                        alert(book.get('title'));
+                    });
+                },
+                error: function (collection, response, options) {
+                    alert('error');
+                }
+            });
+
+            //发送数据到Server端
+            var NewBooks = Backbone.Collection.extend({
+                model: Book,
+                url:'/sources/books.js'
+            });
+            var books = new NewBooks;
+            var onebook = books.create({
+                title:"I'm coming",
+            });
+        })(jQuery);
+    </script>
+</body>
+</html>

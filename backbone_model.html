@@ -1,47 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>backbone-model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>backbone-model</title>
 </head>
 <body>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="http://cdn.bootcss.com/backbone.js/1.2.3/backbone-min.js"></script>
+    <script>
+        (function ($) {
+            //简单对象
+            var Man = Backbone.Model.extend({
+                initialize: function () {
+                    alert('Hey,you create me!');
+                    //初始化时绑定监听 change事件会等于validate发生
+                    this.bind("change:name", function () {
+                        var name = this.get("name");
+                        alert("你改变了name属性为：" + name);
+                    });
+                    //为对象添加验证规则，以及错误提示
+                    this.bind("invalid", function (model, error) {
+                        alert(error);
+                    });
+                },
+                //直接定义，设置默认值
+                defaults: {
+                    name: "Blank",
+                    age: '20'
+                },
+                validate:function(attributes){
+                    if (attributes.name == "") {
+                        return "name不能为空"
+                    }
+                },
+                //对象中的方法
+                aboutMe: function () {
+                    return '我叫' + this.get('name') + ',今年' + this.get('age') + '岁';
+                }
+            });
+            var man = new Man;
+            alert(man.get('name'));
+            //赋值时定义
+            man.set({ name: "web240", age: '22' });
+            alert(man.get('name'));
+
+            alert(man.aboutMe());
+
+            //触发绑定的change事件 alert
+            man.set({ name: 'new name' });
+            man.set({ name: 'web157' });
+
+            //这种方式添加错误处理也行
+            //man.on('invalid', function (model, error) {
+            //    alert(error);
+            //});
+
+            //默认set时不进行验证
+            man.set({ name: '' });
+            //手动触发验证，set时会触发
+            //man.set({ name: '' }, { 'validate': true });
+            //save时触发验证 根据验证规则，弹出错误提示
+            man.save();
+
+        })(jQuery);
+    </script>
 </body>
-<script src="http://the5fireblog.b0.upaiyun.com/staticfile/jquery-1.10.2.js"></script>
-<script src="http://the5fireblog.b0.upaiyun.com/staticfile/underscore.js"></script>
-<script src="http://the5fireblog.b0.upaiyun.com/staticfile/backbone.js"></script>
-<script>
-(function ($) {
-    //简单对象
-    var Man=Backbone.Model.extend({
-      initialize:function(){
-        alert('Hey,you create me!');
-        //初始化时绑定监听
-        this.bind("change:name",function(){
-            var name=this.get("name");
-            alert("你改变了name属性为："+name);
-        });
-      },
-      //直接定义，设置默认值
-      defaults:{
-          name:"Blank",
-          age:'20'
-      },
-      //对象中的方法
-      aboutMe:function(){
-          return '我叫'+this.get('name')+',今年'+this.get('age')+'岁';
-      }
-    });
-    var man=new Man;
-    alert(man.get('name'));
-    //赋值时定义
-    man.set({name:"web240",age:'22'});
-    alert(man.get('name'));
-    
-    alert(man.aboutMe());
-    
-    //触发绑定的change事件 alert
-    man.set({name:'new name'});
-    man.set({name:'web157'});
-    
-})(jQuery);
-</script>
 </html>
