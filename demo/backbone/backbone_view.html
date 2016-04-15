@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>backbone-view</title>
+</head>
+<body>
+    <div id="search_container"></div>
+    <script type="text/template" id="search_template">
+        <label><%=search_label%></label>
+        <input type="text" id="search_input" />
+        <input type="button" id="search_button" value="Search" />
+    </script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="http://cdn.bootcss.com/backbone.js/1.2.3/backbone-min.js"></script>
+    <script>
+        (function ($) {
+            //var SearchView = Backbone.View.extend({
+            //    initialize: function () {
+            //        //alert("init a SearchView");
+            //    },
+            //    render: function (context) {
+            //        //使用underscore这个库，来编译模板
+            //        var template = _.template($("#search_template").html());
+            //        //加载模板到对应的el属性中
+            //        $(this.el).html(template(context));
+            //    }
+            //});
+            //var searchView = new SearchView({ el: $("#search_container") });
+
+            ////这个render的方法可以放到view的构造函数中
+            ////这样初始化时就会自动渲染
+            //searchView.render({search_label:"搜索渲染"});
+            var SearchView = Backbone.View.extend({
+                el: "#search_container",
+                initialize: function () {
+                    this.render({search_label:"搜索按钮"});
+                },
+                render: function (context) {
+                    //使用underscore这个库，来编绎模板
+                    var template = _.template($("#search_template").html());
+                    //加载模板对应的el属性中
+                    $(this.el).html(template(context));
+                },
+                events: {
+                    //定义类型为button的input标签的点击事件，触发函数doSearch
+                    'click input[type=button]':'doSearch'
+                },
+                doSearch: function (event) {
+                    alert("search for "+$("#search_input").val());
+                }
+            });
+            var searchView = new SearchView();
+        })(jQuery);
+    </script>
+</body>
+</html>
