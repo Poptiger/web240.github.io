@@ -1,0 +1,107 @@
+<html doctype="html">
+<head>
+    <style>
+        #msg {
+            display:none;
+        border:2px solid #ff0;
+        width:500px;
+        height:200px;
+        position:relative;
+        right:5px;
+        bottom:5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="height:1000px;width:1000px;">
+        <div style="height:500px"></div><div>
+            <input type="button" id="tl" value="左上" />
+            <input type="button" id="tc" value="上中" />
+            <input type="button" id="tr" value="右上" />
+            <input type="button" id="cl" value="中左" />
+            <input type="button" id="cc" value="中中" />
+            <input type="button" id="cr" value="中右" />
+            <input type="button" id="bl" value="下左" />
+            <input type="button" id="bc" value="下中" />
+            <input type="button" id="br" value="下右" />
+        </div>
+
+    </div>
+    <div id="msg">
+        <h2>title</h2>
+        <div>content</div>
+    </div>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
+    <script>
+        $(function () {
+            $("#msg").fadeIn(2000);
+        })
+    </script>
+    <script>
+        var delaytime = 5000;
+        function show(obj) {
+            console.log(document.body.scrollTop);
+            console.log(document.body.offsetHeight);
+            console.log(document.body.clientHeight);
+            console.log(document.body.scrollLeft);
+            console.log(document.body.offsetWidth);
+            console.log(document.body.clientWidth);
+            $("#msg").css(obj);
+            $("#msg").fadeIn(2000);
+        }
+        $(function () { })
+        $("#tl").on("click", function () {
+            var postion = { left: document.body.scrollLeft + 'px', top: -(document.body.offsetHeight - document.body.scrollTop-200)  + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#tc").on("click", function () {
+            var postion = { left: (document.body.clientWidth - 500) / 2 + document.body.scrollLeft + "px", top: -(document.body.offsetHeight - document.body.scrollTop-200) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#tr").on("click", function () {
+            var postion = { left: (document.body.clientWidth - 500 + document.body.scrollLeft) + 'px', top: -(document.body.offsetHeight - document.body.scrollTop-200) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#cl").on("click", function () {
+            var postion = { left: document.body.scrollLeft + 'px', top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight / 2 -100) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#cc").on("click", function () {
+            var postion = { left: (document.body.clientWidth - 500) / 2 + document.body.scrollLeft + "px", top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight / 2 - 100) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#cr").on("click", function () {
+            var postion = { left: (document.body.clientWidth - 500 + document.body.scrollLeft) + 'px', top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight / 2 - 100)+'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#bl").on("click", function () {
+            var postion = { left: document.body.scrollLeft+'px', top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        $("#bc").on("click", function () {
+            var postion = {
+                left: (document.body.clientWidth - 500) / 2 + document.body.scrollLeft +"px", top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight) + 'px'
+        };
+            show(postion);
+            autoClose();
+        });
+        $("#br").on("click", function () {
+            var postion = { left: (document.body.clientWidth - 500 + document.body.scrollLeft) + 'px', top: -(document.body.offsetHeight - document.body.scrollTop - document.body.clientHeight) + 'px' };
+            show(postion);
+            autoClose();
+        });
+        function autoClose() {
+            //setTimeout(function () { $("#msg").fadeOut(2000); }, delaytime);
+        }
+
+    </script>
+</body>
+</html>
